@@ -1,0 +1,75 @@
+{% extends "system/base.html" %} {% load static %} {% block title %} cart
+{%endblock%} {% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">Корзина</div>
+  </div>
+  
+  {% with total_items=cart|length %} {% if cart|length > 0 %} 
+  <div class="row mt-5">
+    <div class="col custom-control custom-radio">
+      <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" />
+      <label class="custom-control-label" for="customRadio1">Самовывоз</label>
+    </div>
+    <div class="col custom-control custom-radio">
+      <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" />
+      <label class="custom-control-label" for="customRadio2">Доставка</label>
+    </div>
+  </div>
+  {% for item in cart %} {% with product=item.product %}
+  
+  <div class="row border p-2">
+    <div class="col">
+      {% if product.mainimage %}
+      <img src="{{ product.mainimage.url }}" alt="" style="height: 150px" />
+      {% else %}
+      <img
+        src="https://via.placeholder.com/100x100"
+        class="rounded-circle"
+        alt=""
+      />
+      {% endif %}
+    </div>
+    <div class="col">{{ product.name }}</div>
+    <div class="col">{{ item.size }}</div>
+    <div class="col-2">
+    <a href="{% url "cart:cart_decrease_quantity" product.id%}">
+      <sl-icon name="dash-square"></sl-icon>
+    </a>
+       {{ item.quantity }} 
+        <a href="{% url "cart:cart_add_quantity" product.id%}"><sl-icon name="plus-square"></sl-icon></a>
+    </div>
+    <div class="col">
+      {{ item.price }} р.
+    </div>
+
+    <div class="col">
+      <a href="{% url "cart:cart_remove" product.id%}">Удалить</a>
+    </div>
+  </div>
+  {% endwith %} {% endfor %} 
+    <div class="row d-flex justify-content-end">
+      <div class="col-4">Total price: {{ cart.get_total_price }} <br> <a href="{% url "orders:order_create" %}"
+          class="btn btn-primary">Заказать</a></div>
+    </div>
+  {% else %}
+  <div class="row">
+    <div class="col">Корзина пуста!</div>
+  </div>
+  {% endif %} {% endwith %}
+
+
+
+
+  <div class="row mt-5 d-flex justify-content-center">
+    <div class="col-12 text-center">subscribe slogan</div>
+    <div class="input-group col-6">
+      <input type="text" class="form-control" placeholder="email" aria-label="email" aria-describedby="basic-addon2" />
+      <div class="input-group-append">
+        <span class="input-group-text" id="basic-addon2">subscribe</span>
+      </div>
+    </div>
+  </div>
+  <!-- /subscribe-->
+</div>
+{% endblock %}

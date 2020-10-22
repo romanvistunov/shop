@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+    />
+    <title>Магазин</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.19/dist/shoelace/shoelace.css"
+    />
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.19/dist/shoelace/shoelace.esm.js"
+    ></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row mt-5">
+        <div class="col-4 d-flex align-items-end">
+          <form action="{% url 'global_search' %}" method="get">
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Поиск по каталогу"
+                aria-label="Поиск по каталогу"
+                aria-describedby="button-addon2"
+                name="text"
+              />
+              <div class="input-group-append">
+                <button
+                  class="btn btn-outline-secondary"
+                  type="submit"
+                  id="button-addon2"
+                >
+                  <sl-icon name="search"></sl-icon>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col d-flex justify-content-center">
+          <img class="img-fluid" src="https://via.placeholder.com/200x80" />
+        </div>
+        <div class="col-4 d-flex align-items-end justify-content-end">
+          <a type="button" class="btn btn-primary" href="/cart" role="button">
+            Корзина {% with total_items=cart|length %}{% if cart|length > 0 %}
+            <span class="badge badge-light">{{ total_items }}</span>{% endif%}
+            {% endwith %}
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="/">Главная</a>
+          </li>
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/cp">Control Panel</a>
+          </li>
+          {% endif %} {% for category in categories %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ category.get_absolute_url }}"
+              >{{ category.name }}</a
+            >
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <!---/nav-->
+    </div>
+
+    {% block content %} {% endblock %}
+
+    <div class="container-fluid mt-5">
+      <div class="row">
+        <div class="col">contacts</div>
+        <div class="col">info</div>
+        <div class="col">payments</div>
+      </div>
+      <div class="row">
+        <div class="col">Copyright</div>
+        <div class="col">made by</div>
+      </div>
+    </div>
+    <script
+			  src="https://code.jquery.com/jquery-3.5.1.js"
+			  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+			  crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/notie"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

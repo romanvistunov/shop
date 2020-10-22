@@ -1,0 +1,87 @@
+{% extends "cp/base.html" %} {% load static %}{% load widget_tweaks %} {% block content %}
+<div class="row">
+  <div class="col">Добавление заказа</div>
+</div>
+<form action="" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label for="input_phone">Номер телефона</label>
+        {% render_field form.phone class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_name">Имя</label>
+        {% render_field form.fullname class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_email">E-mail</label>
+        {% render_field form.email class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_city">Город</label>
+        {% render_field form.city class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_street">Улица</label>
+        {% render_field form.street class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_house">Номер дома</label>
+        {% render_field form.house_no class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_flat">Квартира</label>
+        {% render_field form.flat_no class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_building">Строение</label>
+        {% render_field form.building_no class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_postal">Индекс</label>
+        {% render_field form.postal_code class+="form-control" %}
+      </div>
+      <div class="form-group border">
+        <label for="input_comment">Комментарий</label>
+        {% render_field form.comment class+="form-control" %}
+      </div>
+      <div class="form-group border">
+        <label for="input_call">Перезвонить</label>
+        {% render_field form.call_me class+="form-control" %}
+      </div>
+      <div class="form-group border">
+        <label for="input_paid">Заказ оплачен</label>
+        {% render_field form.paid class+="form-control" %}
+      </div>
+    </div>
+  </div>
+  {{ formset.management_form }}
+{% for orderform in formset.forms %}
+<div class="row mt-2 border d-flex justify-content-center align-items-center">
+  <div class="col-3">
+    {% render_field orderform.product class+="form-control" %}
+  </div>
+   <div class="col-3">
+    {% render_field orderform.price class+="form-control" %}
+  </div>
+   <div class="col-3">
+    {% render_field orderform.quantity class+="form-control" %}
+  </div>
+  <div class="col d-flex flex-column justify-content-center align-items-center">
+    Удалить
+    {% render_field orderform.DELETE class+="form-control" %} {% render_field galleryform.id %}
+  </div>
+  
+</div>
+{% endfor %}
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-primary" type="submit">Добавить</button>
+    </div>
+    <div class="col d-flex justify-content-end">
+      <a href="{% url "controlpanel:orders_index" %}" class="btn btn-secondary">Отмена</a>
+    </div>
+  </div>
+</form>
+{%endblock%}

@@ -1,0 +1,88 @@
+{% extends "cp/base.html" %} {% load static %} {% block title %} index
+{%endblock%} {% load widget_tweaks %} {% block content %}
+<div class="row">
+  <div class="col">Изменение товара</div>
+</div>
+{% if alert == 'success' %}
+<div class="row">
+  <div class="col">
+    <div class="alert alert-success" role="alert">Данные обновлены</div>
+  </div>
+</div>
+{% endif %} {% if alert == 'danger' %}
+<div class="row">
+  <div class="col">
+    <div class="alert alert-danger" role="alert">Ошибка: {{ errors }}</div>
+  </div>
+</div>
+{% endif %}
+<form action="." method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label for="input_category">Категория</label>
+        {% render_field form.category class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_name">Название</label>
+        {% render_field form.name class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_slug">slug</label>
+        {% render_field form.slug class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_image">Картинка</label>
+        {% render_field form.mainimage class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_desc">Описание</label>
+        {% render_field form.description class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_code">Артикул</label>
+        {% render_field form.code class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_size">Размер</label>
+        {% render_field form.size class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_contents">Состав</label>
+        {% render_field form.contents class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_price">Цена</label>
+        {% render_field form.price class+="form-control" %}
+      </div>
+      <div class="form-group border">
+        <label for="input_avail">Доступен</label>
+        {% render_field form.available class+="form-control" %}
+      </div>
+    </div>
+  </div>
+{{ formset.management_form }}
+{% for galleryform in formset.forms %}
+<div class="row mt-2 border d-flex justify-content-center align-items-center">
+  <div class="col-9">
+    {% render_field galleryform.image class+="form-control" %}
+  </div>
+  <div class="col d-flex flex-column justify-content-center align-items-center">
+    Удалить
+    {% render_field galleryform.DELETE class+="form-control" %} {% render_field galleryform.id %}
+  </div>
+  
+</div>
+{% endfor %}
+  <div class="row">
+    <div class="col">
+      <a href="{% url "controlpanel:product_delete" product.id %}" class="btn btn-danger">Удалить</a>
+    </div>
+    <div class="col d-flex justify-content-end">
+      <button class="btn btn-primary" type="submit">Сохранить</button>
+    </div>
+  </div>
+</form>
+
+{%endblock%}

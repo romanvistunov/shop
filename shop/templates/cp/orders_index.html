@@ -1,0 +1,38 @@
+{% extends "cp/base.html" %} {% load static %} {% block content %}
+<div class="row">
+  <div class="col">Выберите заказ для изменения</div>
+</div>
+<div class="row">
+  <div class="col">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Имя</th>
+          <th scope="col">Телефон</th>
+          <th scope="col">E-mail</th>
+          <th scope="col">Город</th>
+          <th scope="col">Дата создания</th>
+          <th scope="col">Перезвонить</th>
+          <th scope="col">Оплачен</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <th scope="row">{% if not order.read %}<span class="badge badge-warning">{{ order.id }}</span>{% else %}{{ order.id }}{% endif %}</th>
+          <td><a href="{% url "controlpanel:order_detail" order.id %}">{{ order.fullname }}</a></td>
+          <td>{{ order.phone }}</td>
+          <td>{{ order.email }}</td>
+          <td>{{ order.city }}</td>
+          <td>{{ order.created }}</td>
+          <td>{% if order.call_me %}Да{% else %}Нет{% endif %}</td>
+          <td>{% if order.paid %}Да{% else %}Нет{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    Всего {{ orders.count }} заказов
+  </div>
+</div>
+{%endblock%}

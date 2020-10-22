@@ -1,0 +1,21 @@
+{% extends "cp/base.html" %} {% load static %} {% block title %} index
+{%endblock%} {% load widget_tweaks %} {% block content %}
+<div class="row">
+  <div class="col">Удаление категории</div>
+</div>
+<div class="row">
+  <div class="col">
+    Вы уверены, что хотите удалить категорию "{{ category.name }}"?
+  </div>
+</div>
+<form action="." method="POST">
+  {% csrf_token %}
+<div class="row">
+  <div class="col">
+    <button type="submit" class="btn btn-danger">Да, удалить</button>
+    <a href="{% url 'controlpanel:category_detail' category.id%}" class="btn btn-secondary" role="button" aria-pressed="true">Нет, отменить</a>
+  </div>
+</div>
+</form>
+{{msg}}
+{%endblock%}

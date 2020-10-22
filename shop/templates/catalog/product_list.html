@@ -1,0 +1,99 @@
+{% extends "system/base.html" %} {% load static %} {% block title %} Платья
+{%endblock%}{% block content %}
+<div class="container-fluid">
+  <div class="row mt-2">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb bg-transparent">
+        <li class="breadcrumb-item"><a href="/">Главная</a></li>
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ category.name }}
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <div class="row">
+    <div class="col">
+      {{ category.name }} {{ products_len }} товар в категории
+    </div>
+  </div>
+  <div class="row sticky-top mt-2 bg-white">
+    <div class="col">
+      <select id="order_select" name="order_select">
+        <option value="popularity">По популярности</option>
+        <option value="price_inc">По возрастанию цены</option>
+        <option value="price_dec">По убыванию цены</option>
+        <option value="discount">По скидкам</option>
+        <option value="new">По новинкам</option>
+      </select>
+     
+    </div>
+    <div class="col">
+      <input type="text" placeholder="input" name="product" id="product" />
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-3">
+      <ul class="list-group">
+        {% for category in categories %}
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          <a href="{{ category.get_absolute_url }}">{{ category.name }} </a>
+          <span class="badge badge-primary badge-pill"
+            >{{ category.get_products_len }}</span
+          >
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col">
+      <div class="row" id="productrow">
+        {% for product in page_obj %}
+        <div class="card col-3 border-0">
+          <a href="{{ product.get_absolute_url }}">
+            <img
+              src="{{ product.mainimage.url }}"
+              class="card-img-top img-fluid"
+              alt="Изображение товара"
+              style="height: 280px"
+            />
+          </a>
+          <div class="card-body d-flex justify-content-between">
+            {{ product.name }} {{ product.price }} ₽
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="row mt-5">
+        <nav aria-label="Page navigation example" class="col">
+          <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a
+                class="page-link"
+                href="?page={{ page_obj.previous_page_number }}"
+                tabindex="-1"
+                aria-disabled="true"
+                >Предыдущая</a
+              >
+            </li>
+            {% endif %} {% if page_obj.paginator.num_pages > 1 %} {% for page in page_obj.paginator %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page.number }}"
+                >{{ page.number }}</a
+              >
+            </li>
+            {% endfor %} {% endif %} {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.next_page_number }}"
+                >Следующая</a
+              >
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

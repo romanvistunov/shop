@@ -1,0 +1,56 @@
+{% extends "cp/base.html" %} {% load static %} {% block title %} index
+{%endblock%} {% load widget_tweaks %} {% block content %}
+<div class="row">
+  <div class="col">Добавление категории</div>
+</div>
+{% if alert == 'success' %}
+<div class="row">
+  <div class="col">
+    <div class="alert alert-success" role="alert">
+      Категория добавлена
+    </div>
+  </div>
+</div>
+{% endif %}
+{% if alert == 'danger' %}
+<div class="row">
+  <div class="col">
+    <div class="alert alert-danger" role="alert">
+      Ошибка: {{ errors }}
+    </div>
+  </div>
+</div>
+{% endif %}
+<form action="" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label for="input_name">Название</label>
+        {% render_field form.name class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_number">Порядковый номер</label>
+        {% render_field form.number class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_slug">slug</label>
+        {% render_field form.slug class+="form-control" %}
+      </div>
+      <div class="form-group">
+        <label for="input_image">Картинка</label>
+        {% render_field form.image class+="form-control" %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-primary" type="submit">Добавить</button>
+    </div>
+    <div class="col d-flex justify-content-end">
+      <a href="{% url "controlpanel:category_index" %}" class="btn btn-secondary">Отмена</a>
+    </div>
+  </div>
+</form>
+{%endblock%}

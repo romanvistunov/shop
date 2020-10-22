@@ -1,0 +1,10 @@
+{% extends "system/base.html" %} {% load static %} {% block title %} search_results
+{%endblock%} {% block content %}
+
+
+По вашему запросу найдены следующие товары: <br>
+{% for item in search_results %}
+  {{ item.name }} <br>
+{% endfor %}
+
+{% endblock %}
